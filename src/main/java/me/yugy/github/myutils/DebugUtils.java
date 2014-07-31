@@ -10,6 +10,8 @@ import org.json.JSONObject;
  */
 public class DebugUtils {
 
+    private static boolean DEBUG = false;
+
     static String className;
     static String methodName;
     static int lineNumber;
@@ -34,7 +36,7 @@ public class DebugUtils {
     }
 
     public static void log(Object log){
-        if(BuildConfig.DEBUG){
+        if(DEBUG){
             getMethodNames(new Throwable().getStackTrace());
 
             if(log == null){ //log null
@@ -49,5 +51,9 @@ public class DebugUtils {
                 Log.d(className, createLog(new String((byte[]) log)));
             }
         }
+    }
+
+    public static void setLogEnable(boolean DEBUG) {
+        DebugUtils.DEBUG = DEBUG;
     }
 }
