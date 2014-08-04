@@ -49,7 +49,7 @@ public class StorageUtils {
             appCacheDir = context.getCacheDir();
         }
         if (appCacheDir == null) {
-            String cacheDirPath = "/data/data/" + context.getPackageName() + "/cache/";
+            String cacheDirPath = context.getFilesDir().getPath() + "/cache/";
             DebugUtils.log("Can't define system cache directory! " + cacheDirPath + " will be used.");
             appCacheDir = new File(cacheDirPath);
         }

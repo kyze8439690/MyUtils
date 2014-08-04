@@ -1,9 +1,11 @@
 package me.yugy.github.myutils;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.os.Build;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.WindowManager;
@@ -23,6 +25,7 @@ public class ScreenUtils {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, resources.getDisplayMetrics());
     }
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static int getActionBarHeight(Context context){
         int[] attrs = new int[] { android.R.attr.actionBarSize };
         TypedArray styledAttributes = context.getTheme().obtainStyledAttributes(attrs);
