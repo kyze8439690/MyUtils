@@ -36,7 +36,6 @@ public class NetworkUtils {
     }
 
     public static String getFileNameFromUrl(String url) {
-        // 通过 ‘？’ 和 ‘/’ 判断文件名
         int index = url.lastIndexOf('?');
         String filename;
         if (index > 1) {
@@ -45,8 +44,8 @@ public class NetworkUtils {
             filename = url.substring(url.lastIndexOf('/') + 1);
         }
 
-        if (filename == null || "".equals(filename.trim())) {// 如果获取不到文件名称
-            filename = UUID.randomUUID() + ".apk";// 默认取一个文件名
+        if ("".equals(filename.trim())) {
+            filename = UUID.randomUUID() + ".apk";
         }
         return filename;
     }

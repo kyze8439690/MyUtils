@@ -1,7 +1,9 @@
 package me.yugy.github.myutils;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Environment;
 import android.os.StatFs;
 
@@ -15,13 +17,18 @@ import static android.os.Environment.MEDIA_MOUNTED;
  */
 public class StorageUtils {
 
+    @SuppressWarnings("deprecation")
+    @TargetApi(18)
     public static long getAvailableStorage() {
-        String storageDirectory = null;
+        String storageDirectory;
         storageDirectory = Environment.getExternalStorageDirectory().toString();
         try {
             StatFs stat = new StatFs(storageDirectory);
-            long avaliableSize = ((long) stat.getAvailableBlocks() * (long) stat.getBlockSize());
-            return avaliableSize;
+            if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                return ((long) stat.getAvailableBlocks() * (long) stat.getBlockSize());
+            }else{
+                return (stat.getAvailableBlocksLong() * stat.getBlockSizeLong());
+            }
         } catch (RuntimeException ex) {
             return 0;
         }
@@ -31,7 +38,7 @@ public class StorageUtils {
         return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
     }
 
-    public static boolean isSdCardWrittenable() {
+    public static boolean isSdCardWrittable() {
         if (Environment.getExternalStorageState().equals(
                 Environment.MEDIA_MOUNTED)) {
             return true;

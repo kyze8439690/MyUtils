@@ -22,8 +22,8 @@ public class MD5Utils {
 
     /**
      * generate 32 bit md5 encrypted string
-     * @param raw
-     * @return
+     * @param raw string to encrypted
+     * @return encrypted string
      */
     public static String md5(String raw){
         if(md5MessageDigest == null){

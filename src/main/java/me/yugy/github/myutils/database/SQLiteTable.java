@@ -20,7 +20,7 @@ public class SQLiteTable {
 
     /**
      * will automatically add primary key "_ID" (BaseColumns._ID)
-     * @param tableName
+     * @param tableName Table name
      */
     public SQLiteTable(String tableName){
         mTableName = tableName;

@@ -9,14 +9,17 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 
 /**
- * This class is pinyin4android main interface .
- * there are two methods you can call them to convert the chinese to pinyin.
- * PinyinUtil.toPinyin(Context context,char c);
- * PinyinUtil.toPinyin(Context context,String hanzi);
- * <p/>
+ * This class is pinyin4android main interface.
+ * there are two methods you can call them to convert the chinese to pinyin.<br>
+ * <p>
+ * PinyinUtil.toPinyin(Context context,char c);<br>
+ * PinyinUtil.toPinyin(Context context,String hanzi);<br>
+ * </p>
+ * <p>
  * User: Ryan
  * Date: 11-5-29
  * Time: 21:13
+ * </p>
  */
 public class PinyinUtils {
     /**
