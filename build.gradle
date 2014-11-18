@@ -26,8 +26,8 @@ android {
         applicationId "me.yugy.github.myutils"
         minSdkVersion 8
         targetSdkVersion 21
-        versionCode 3
-        versionName "0.0.2-SNAPSHOT"
+        versionCode 4
+        versionName "0.0.3-SNAPSHOT"
     }
 }
 

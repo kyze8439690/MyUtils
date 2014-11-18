@@ -13,7 +13,7 @@ import android.view.WindowManager;
 /**
  * Created by yugy on 14-1-7.
  */
-public class ScreenUtils {
+public class UIUtils {
 
     public static int dp(Context context, float dp){
         Resources resources = context.getResources();
