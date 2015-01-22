@@ -8,6 +8,86 @@ import android.graphics.BitmapFactory;
  * Created by yugy on 2014/3/27.
  */
 public class ImageUtils {
+    
+    private static final String SCHEME_FILE = "file";
+    private static final String SCHEME_CONTENT = "content";
+
+    public static int calculateInSampleSize(int imageWidth, int imageHeight, int reqWidth, int reqHeight) {
+        // Raw height and width of image
+        int inSampleSize = 1;
+
+        if (imageHeight > reqHeight || imageWidth > reqWidth) {
+
+            final int halfHeight = imageHeight / 2;
+            final int halfWidth = imageWidth / 2;
+
+            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
+            // height and width larger than the requested height and width.
+            while ((halfHeight / inSampleSize) > reqHeight
+                    && (halfWidth / inSampleSize) > reqWidth) {
+                inSampleSize *= 2;
+            }
+        }
+
+        return inSampleSize;
+    }
+
+    public static int getExifRotation(File imageFile) {
+        if (imageFile == null) return 0;
+        try {
+            ExifInterface exif = new ExifInterface(imageFile.getAbsolutePath());
+            // We only recognize a subset of orientation tag values
+            switch (exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED)) {
+                case ExifInterface.ORIENTATION_ROTATE_90:
+                    return 90;
+                case ExifInterface.ORIENTATION_ROTATE_180:
+                    return 180;
+                case ExifInterface.ORIENTATION_ROTATE_270:
+                    return 270;
+                default:
+                    return ExifInterface.ORIENTATION_UNDEFINED;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    public static int getExifRotation(ContentResolver resolver, Uri uri) {
+        File file = getFromMediaUri(resolver, uri);
+        return getExifRotation(file);
+    }
+
+    public static File getFromMediaUri(ContentResolver resolver, Uri uri) {
+        if (uri == null) return null;
+
+        if (SCHEME_FILE.equals(uri.getScheme())) {
+            return new File(uri.getPath());
+        } else if (SCHEME_CONTENT.equals(uri.getScheme())) {
+            final String[] filePathColumn = { MediaStore.MediaColumns.DATA, MediaStore.MediaColumns.DISPLAY_NAME };
+            Cursor cursor = null;
+            try {
+                cursor = resolver.query(uri, filePathColumn, null, null, null);
+                if (cursor != null && cursor.moveToFirst()) {
+                    final int columnIndex = (uri.toString().startsWith("content://com.google.android.gallery3d")) ?
+                            cursor.getColumnIndex(MediaStore.MediaColumns.DISPLAY_NAME) :
+                            cursor.getColumnIndex(MediaStore.MediaColumns.DATA);
+                    // Picasa image on newer devices with Honeycomb and up
+                    if (columnIndex != -1) {
+                        String filePath = cursor.getString(columnIndex);
+                        if (!TextUtils.isEmpty(filePath)) {
+                            return new File(filePath);
+                        }
+                    }
+                }
+            } catch (SecurityException ignored) {
+                // Nothing we can do
+            } finally {
+                if (cursor != null) cursor.close();
+            }
+        }
+        return null;
+    }
 
     public static Bitmap fastBlur(Bitmap sentBitmap, int radius){
 
